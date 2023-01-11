@@ -15,7 +15,7 @@ def set_all_seeds(seed):
     np.random.seed(seed)
     torch.manual_seed(seed)
     torch.cuda.manual_seed(seed)
-    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.deterministic = False
 
 def create_transform(input_list, nms_model=None):
     transform_list = []

@@ -85,7 +85,7 @@ if vars(args)['extract'].lower() in ['yes', 'true', 'y', 't']:
             if os.path.isfile('./Data/'+data): 
                 extract_tar('./Data/'+data, './Data/')
             else:
-            	print(data, 'file not found')
+                print(data, 'file not found')
         else:
             if not os.path.exists('./Data/ImageNet'): 
                 os.makedirs('./Data/ImageNet')

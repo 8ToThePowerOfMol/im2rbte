@@ -78,10 +78,11 @@ def train_test():
                                                       num_workers=run['train']['workers'],
                                                       shuffle=False)
         #pdb.set_trace()
-        net = nw.initizalize_network(architecture=run['train']['architecture'], 
-                                     no_classes=len(train_dataset.classes), 
-                                     load_model=run['io_var']['load_model'], 
-                                     pretrained=run['train']['pretrained'])
+        net = nw.initizalize_network(architecture=run['train']['architecture'],
+                                     no_classes=len(train_dataset.classes),
+                                     load_model=run['io_var']['load_model'],
+                                     pretrained=run['train']['pretrained'],
+                                     sequence=run['train']['sequence'] if 'sequence' in run['train'] else None)
         optimizer = torch.optim.Adam(net.parameters(), lr=run['train']['learning_rate'],
                                      betas=(0.9, 0.999), 
                                      weight_decay=run['train']['weight_decay'])
