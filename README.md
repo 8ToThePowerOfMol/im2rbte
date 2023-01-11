@@ -1,3 +1,39 @@
+# [Alternative] Learned Thin-pix2pix instead of handcrafted rBTE
+
+The goal of this method remains the same: class-level sketch classification at test time without using any sketches at training time.
+The method, how are natural images transformed is different.
+Labeled natural images are (instead of handcrafted transformation into rBTE) transformed with a sequential composition of learned edge detection followed by learned thinning into thin outlines.
+
+**For now, this method does not surpass rBTE**, presumably due to the Thin-pix2pix that can hallucinate additional outlines and can generate artifacts.
+
+## Pipeline
+
+![thin-approx](https://user-images.githubusercontent.com/29608815/211829439-e0c5843e-7ca5-4ac2-9784-cb4db07086e8.jpg)
+
+Overview of the training pipeline with Thin-pix2pix. A photo
+is transformed into outlines using multiple edge detectors (green) followed by
+geometric augmentations (yellow). Edge maps are transformed with Thin-pix2pix
+generator into outlines. The transformed image (outlines) together with the
+annotation of the former photo is then used to train a network classifier with
+the cross–entropy loss.
+
+## Experiments
+
+To remain more consistent with the prior work, both variants SE+HED+BDCS and HED are evaluated, although thinning (Thin-pix2pix) was learned only on HED edge maps input.
+
+To reproduce an experiment, follow these steps:
+1. install necessary dependencies and download Sketchy and PACS datasets,
+2. obtain Thin-pix2pix from mdir and add it to `Pretrained_Models`,
+3. run the correponding training scenario, e.g.:
+```bash
+python3 method.py --run dp23mohwald_PACS_thinpix2pix.yaml
+```
+
+- rBTE on PACS corresponds to `run_PACS_generalization.yaml`
+- rBTE on sketchy corresponds to `run_sketchy_id5.yaml`
+- rBTE on sketchy with only HED edge maps corresponds to `run_sketchy_id4.yaml`
+
+
 # Edge Augmentation for Large-Scale Sketch Recognition without Sketches
   
 This is the official implementation of the method proposed in the ICPR 2022 paper [Edge Augmentation for Large-Scale Sketch Recognition without Sketches](https://arxiv.org/abs/2202.13164). 
@@ -106,5 +142,3 @@ For the creation of the Im4Sketch dataset and its sub-datasets used for our expe
 For more information about the Im4Sketch dataset please visit the [Im4Sketch](http://cmp.felk.cvut.cz/im4sketch/) dataset webpage
 
 ![Im4Sketch2](https://user-images.githubusercontent.com/11415657/171275859-3bc572c6-8e4f-4d8a-b5bf-bceed1327704.jpg)
-
-
